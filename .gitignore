@@ -1,0 +1,6 @@
+*.venv
+*DS_Store
+*.vscode
+*__pycache__
+# Ignore dynaconf secret files
+.secrets.*
