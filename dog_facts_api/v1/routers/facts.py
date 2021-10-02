@@ -20,24 +20,34 @@ class Fact(BaseModel):
     description: str
 
 
-def get_data() -> Tuple[dict, int]:
+def get_data(shuffle: bool) -> Tuple[dict, int]:
     """
     Extract data from the data file.
     :return the loaded data and the number of entries there are
     """
     data_file = open(DATA_PATH, "r")
     data = json.load(data_file)
-    random.shuffle(data)
+    if shuffle:
+        random.shuffle(data)
     num_of_entry = len(data)
     return data, num_of_entry
 
 
-@v1_router.get("/{number}")
+@v1_router.get("/all")
+async def get_all_facts() -> dict:
+    """
+    Get all dog facts.
+    """
+    data, _ = get_data(shuffle=False)
+    return {"facts": [entry.get("fact") for entry in data]}
+
+
+@v1_router.get("/")
 async def get_facts(number: int) -> dict:
     """
-    Get dog facts randomly.
+    Get a number of dog facts randomly.
     """
-    data, num_of_entry = get_data()
+    data, num_of_entry = get_data(shuffle=True)
 
     if 0 < number < num_of_entry:
         return {"facts": [entry.get("fact") for entry in data[:number]]}
@@ -67,7 +77,7 @@ async def create_fact(entry: Fact, x_token: str = Header(...)) -> Fact:
     if x_token != SECRET_TOKEN:
         raise HTTPException(status_code=400, detail="X-Token header invalid")
 
-    data, _ = get_data()
+    data, _ = get_data(shuffle=False)
     if is_duplicate(entry, data):
         raise HTTPException(status_code=400, detail="Fact already existed")
 

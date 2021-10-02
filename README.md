@@ -1,19 +1,19 @@
 # Dog Facts API
 
-An API that will return random facts about dog.
+An API that returns random facts about dog.
 
 ## Inspirations
 
-- The project is a port of [kinduff/dog-api](https://github.com/kinduff/dog-api) using Python with Flask.
+- The project is a port of [kinduff/dog-api](https://github.com/kinduff/dog-api) using Python with FastAPI.
 - There are way too many APIs supporting cat facts. It is unfair!
 - I'm a dog person. Cats are jerks.
 
 ## Usage:
 
 - `https://dog-facts-api.herokuapp.com/api/v1/facts/all` to get all the facts at once.
-- Change `all` to parameter `{number}` to specify the number of facts you want to receive.
+- Change `all` to parameter `?number={your_number}` to specify the number of facts you want to receive.
 
-## Rebuild the project:
+## Rebuild the project locally:
 
 - Clone the repo.
 - `poetry install` to install the dependencies.
@@ -22,7 +22,7 @@ An API that will return random facts about dog.
 
 ## Example:
 
-- `https://dog-facts-api.herokuapp.com/api/v1/facts/5` returns:
+- `https://dog-facts-api.herokuapp.com/api/v1/facts/?number=5` returns:
 
 ```JSON
 {
