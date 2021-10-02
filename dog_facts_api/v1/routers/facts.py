@@ -8,7 +8,9 @@ from pydantic import BaseModel
 from config import DATA_PATH, SECRET_TOKEN
 
 v1_router = APIRouter(
-    prefix="/v1/facts", tags=["facts"], responses={"404": {"description": "Not found"}}
+    prefix="/api/v1/facts",
+    tags=["facts"],
+    responses={"404": {"description": "Not found"}},
 )
 
 
