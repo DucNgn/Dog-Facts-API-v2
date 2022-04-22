@@ -12,6 +12,4 @@ RUN poetry install --no-dev
 
 COPY ./ /app
 
-CMD poetry run python dog_facts_api/main.py
-
-EXPOSE 5000
+EXPOSE 8000

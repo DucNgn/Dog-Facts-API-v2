@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
-from dog_facts_api import __version__
-from dog_facts_api.main import create_app
+from app import __version__
+from app.main import create_app
 
 client = TestClient(create_app())
 

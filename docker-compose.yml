@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: dog-facts-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    restart: unless-stopped
+    ports:
+      - "8000:8000"

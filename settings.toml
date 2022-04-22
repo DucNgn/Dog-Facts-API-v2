@@ -1,5 +1,6 @@
 [APP]
 NAME="Dog Facts API"
 HOST="0.0.0.0"
-PORT=5000
+PORT=8000
 VERSION="0.1.0"
+HOMEPAGE="https://github.com/DukeNgn/Dog-facts-api-v2"

@@ -20,6 +20,12 @@ class Fact(BaseModel):
     description: str
 
 
+class FactResponse(BaseModel):
+    """Represents the response from the API"""
+
+    facts: List[str]
+
+
 def get_data(shuffle: bool) -> Tuple[dict, int]:
     """
     Extract data from the data file.
@@ -33,24 +39,24 @@ def get_data(shuffle: bool) -> Tuple[dict, int]:
     return data, num_of_entry
 
 
-@v1_router.get("/all")
-async def get_all_facts() -> dict:
+@v1_router.get("/all", response_model=FactResponse)
+async def get_all_facts() -> any:
     """
     Get all dog facts.
     """
     data, _ = get_data(shuffle=False)
-    return {"facts": [entry.get("fact") for entry in data]}
+    return FactResponse(facts=[entry.get("fact") for entry in data])
 
 
-@v1_router.get("/")
-async def get_facts(number: int) -> dict:
+@v1_router.get("/", response_model=FactResponse)
+async def get_facts(number: int) -> any:
     """
     Get a number of dog facts randomly.
     """
     data, num_of_entry = get_data(shuffle=True)
 
     if 0 < number < num_of_entry:
-        return {"facts": [entry.get("fact") for entry in data[:number]]}
+        return FactResponse(facts=[entry.get("fact") for entry in data[:number]])
     else:
         raise HTTPException(
             status_code=400,
@@ -58,7 +64,7 @@ async def get_facts(number: int) -> dict:
         )
 
 
-def update_data(new_data: List[dict]) -> None:
+def update_data(new_data: List[dict]) -> any:
     data_file = open(DATA_PATH, "w")
     json.dump(new_data, data_file, indent=4)
 
@@ -69,8 +75,8 @@ def is_duplicate(new_entry: Fact, data: List[dict]) -> bool:
     )
 
 
-@v1_router.post("/new")
-async def create_fact(entry: Fact, x_token: str = Header(...)) -> Fact:
+@v1_router.post("/new", response_model=Fact)
+async def create_fact(entry: Fact, x_token: str = Header(...)) -> any:
     """
     Create a new dog fact entry.
     """
